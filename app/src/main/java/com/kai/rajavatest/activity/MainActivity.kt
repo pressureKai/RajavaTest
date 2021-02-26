@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "操作方法" -> {
+
                     val intent = Intent(this, RxjavaBaseClassActivity::class.java)
                     startActivity(intent)
                 }
