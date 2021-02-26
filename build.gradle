@@ -1,23 +1,30 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext.kotlin_version = "1.4.21"
-    repositories {
-        google()
-        jcenter()
-    }
+    ext.dokka_version = '1.4.10.2'
+
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+       // classpath 'org.jetbrains.dokka:dokka-gradle-plugin:0.10.1'
     }
+    repositories {
+        google()
+        jcenter()
+        maven { url = uri("https://plugins.gradle.org/m2/")}
+    }
+
 }
 
 allprojects {
     repositories {
+        //去maven仓库尝试解析所需插件，如果找不到再去gradlePluginPortal
+       // gradlePluginPortal()
         google()
         jcenter()
+        maven {url"http://jitpack.io"}
+        maven { url = uri("https://plugins.gradle.org/m2/")}
     }
 }
 

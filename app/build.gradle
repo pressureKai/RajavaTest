@@ -1,12 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'org.jetbrains.dokka'
     id 'kotlin-android-extensions'
 }
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+
 
     defaultConfig {
         applicationId "com.kai.rajavatest"
@@ -31,6 +33,32 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+
+    dokkaHtml.configure {
+        dokkaSourceSets {
+            named("main") {
+                noAndroidSdkLink.set(true)
+                noJdkLink.set(true)
+            }
+        }
+    }
+
+//    dokka {
+//        outputFormat = 'javadoc'
+//        outputDirectory = "$buildDir/docs"
+//
+//        configuration {
+//            skipDeprecated = true
+//            reportUndocumented = true
+//            skipEmptyPackages = true
+//
+//            noJdkLink = true
+//            noStdlibLink = true
+//            noAndroidSdkLink = true
+//        }
+//    }
+
 }
 
 dependencies {
