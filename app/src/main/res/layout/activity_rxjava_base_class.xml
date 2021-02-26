@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textColor="@color/black"
-        android:text="Rxjava3 系统学习"/>
+        android:text="基类"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="4dp"
