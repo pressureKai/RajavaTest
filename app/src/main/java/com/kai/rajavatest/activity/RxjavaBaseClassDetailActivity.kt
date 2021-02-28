@@ -3,14 +3,15 @@ package com.kai.rajavatest.activity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.kai.rajavatest.entity.NounDescriptor
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.core.ObservableOnSubscribe
 import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.functions.Cancellable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.lang.NullPointerException
 
 /**
  *
@@ -29,6 +30,51 @@ class RxjavaBaseClassDetailActivity : AppCompatActivity() {
 
 
     private fun sample(){
+        val observableDescriptor = NounDescriptor()
+        observableDescriptor.name = "Observable"
+        observableDescriptor.descriptor = "可供观察的数据流对象"
+
+
+        val observableCreateDescriptor = NounDescriptor()
+        observableCreateDescriptor.name = "Observable.create<T>(ObservableOnSubscriber<T>(){})"
+        observableCreateDescriptor.descriptor = "创建一个生产数据的对象"
+
+
+        val observableOnSubscriberDescriptor = NounDescriptor()
+        observableOnSubscriberDescriptor.name = "ObservableOnSubscriber<T>(){\n fun subscriber(ObservableEmitter<T>()){\n}}"
+        observableOnSubscriberDescriptor.descriptor = "数据的生成接口仅有一个抽象方法subscriber() "
+
+
+
+        val observableEmitterDescriptor = NounDescriptor()
+        observableEmitterDescriptor.name = "ObservableEmitter<T>"
+        observableEmitterDescriptor.descriptor = "数据发射者\nonNext(T)\nonError()\nonComplete()"
+
+
+        val observeOnDescriptor = NounDescriptor()
+        observeOnDescriptor.name = "observeOn"
+        observeOnDescriptor.descriptor = "定义数据接收线程"
+
+
+        val subscribeOnDescriptor = NounDescriptor()
+        subscribeOnDescriptor.name = "subscribeOn"
+        subscribeOnDescriptor.descriptor = "定义数据的生产线程"
+
+
+        val doOnSubscribeDescriptor = NounDescriptor()
+        doOnSubscribeDescriptor.name = "doOnSubscribe"
+        doOnSubscribeDescriptor.descriptor = "数据刚被订阅时的回调"
+
+
+        val doOnCompleteDescriptor = NounDescriptor()
+        doOnCompleteDescriptor.name = "doOnComplete"
+        doOnCompleteDescriptor.descriptor = "数据回调结束时的回调"
+
+
+        val subscribeDescriptor = NounDescriptor()
+        subscribeDescriptor.name = "subscribe"
+        subscribeDescriptor.descriptor = "接收数据的回调"
+
         // Observable  可供观察的数据
         // create(ObservableOnSubscribe<T>()) 创建一个被订阅的数据对象
         // ObservableOnSubscribe<T>() T : 表示正在被订阅的数据对象
@@ -74,24 +120,5 @@ class RxjavaBaseClassDetailActivity : AppCompatActivity() {
                 .subscribe {
                     Log.e("Rxjava",Thread.currentThread().name + ": get data $it")
                 }
-    }
-
-    class BaseObserver<T> :Observer<T>{
-        override fun onSubscribe(d: Disposable?) {
-
-        }
-
-        override fun onNext(t: T) {
-
-        }
-
-        override fun onError(e: Throwable?) {
-
-        }
-
-        override fun onComplete() {
-
-        }
-
     }
 }
