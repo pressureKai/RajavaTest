@@ -9,7 +9,7 @@
 
     <TextView
         android:padding="4dp"
-        android:id="@+id/title"
+        android:id="@+id/title_textView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/list"
         app:layout_constraintLeft_toLeftOf="parent"

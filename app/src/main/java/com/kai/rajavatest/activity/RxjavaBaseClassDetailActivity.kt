@@ -3,19 +3,18 @@ package com.kai.rajavatest.activity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.kai.rajavatest.R
+import com.kai.rajavatest.adapter.NounDescriptorAdapter
 import com.kai.rajavatest.entity.NounDescriptor
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableEmitter
-import io.reactivex.rxjava3.core.ObservableOnSubscribe
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.functions.Cancellable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_rxjava_base_class.*
 
 /**
  *
- * @ProjectName:    RajavaTest
+ * @ProjectName:    RxjavaTest
  * @Description:     java类作用描述
  * @Author:         pressureKai
  * @UpdateDate:     2021/2/26 11:35
@@ -25,55 +24,29 @@ class RxjavaBaseClassDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_rxjava_base_class)
         sample()
     }
 
 
     private fun sample(){
-        val observableDescriptor = NounDescriptor()
-        observableDescriptor.name = "Observable"
-        observableDescriptor.descriptor = "可供观察的数据流对象"
+        title_textView.text = "名词解释"
+        val nounDescriptors = ArrayList<NounDescriptor>()
+        fitList("Observable","可供观察的数据流对象",nounDescriptors)
+        fitList("Observable.create<T>(ObservableOnSubscriber<T>(){})","创建一个生产数据的对象",nounDescriptors)
+        fitList( "ObservableOnSubscriber<T>(){\n fun subscriber(ObservableEmitter<T>()){\n}}",
+                "数据的生成接口仅有一个抽象方法subscriber() ",nounDescriptors)
+        fitList( "ObservableEmitter<T>", "数据发射者\nonNext(T)\nonError()\nonComplete()",nounDescriptors)
+        fitList("observeOn","定义数据接收线程",nounDescriptors)
+        fitList( "subscribeOn","定义数据的生产线程",nounDescriptors)
+        fitList("doOnSubscribe","数据刚被订阅时的回调",nounDescriptors)
+        fitList("doOnComplete","数据回调结束时的回调",nounDescriptors)
+        fitList("subscribe","接收数据的回调",nounDescriptors)
 
 
-        val observableCreateDescriptor = NounDescriptor()
-        observableCreateDescriptor.name = "Observable.create<T>(ObservableOnSubscriber<T>(){})"
-        observableCreateDescriptor.descriptor = "创建一个生产数据的对象"
-
-
-        val observableOnSubscriberDescriptor = NounDescriptor()
-        observableOnSubscriberDescriptor.name = "ObservableOnSubscriber<T>(){\n fun subscriber(ObservableEmitter<T>()){\n}}"
-        observableOnSubscriberDescriptor.descriptor = "数据的生成接口仅有一个抽象方法subscriber() "
-
-
-
-        val observableEmitterDescriptor = NounDescriptor()
-        observableEmitterDescriptor.name = "ObservableEmitter<T>"
-        observableEmitterDescriptor.descriptor = "数据发射者\nonNext(T)\nonError()\nonComplete()"
-
-
-        val observeOnDescriptor = NounDescriptor()
-        observeOnDescriptor.name = "observeOn"
-        observeOnDescriptor.descriptor = "定义数据接收线程"
-
-
-        val subscribeOnDescriptor = NounDescriptor()
-        subscribeOnDescriptor.name = "subscribeOn"
-        subscribeOnDescriptor.descriptor = "定义数据的生产线程"
-
-
-        val doOnSubscribeDescriptor = NounDescriptor()
-        doOnSubscribeDescriptor.name = "doOnSubscribe"
-        doOnSubscribeDescriptor.descriptor = "数据刚被订阅时的回调"
-
-
-        val doOnCompleteDescriptor = NounDescriptor()
-        doOnCompleteDescriptor.name = "doOnComplete"
-        doOnCompleteDescriptor.descriptor = "数据回调结束时的回调"
-
-
-        val subscribeDescriptor = NounDescriptor()
-        subscribeDescriptor.name = "subscribe"
-        subscribeDescriptor.descriptor = "接收数据的回调"
+        list.layoutManager = LinearLayoutManager(this)
+        list.adapter = NounDescriptorAdapter()
+        (list.adapter as NounDescriptorAdapter).setNewInstance(nounDescriptors)
 
         // Observable  可供观察的数据
         // create(ObservableOnSubscribe<T>()) 创建一个被订阅的数据对象
@@ -120,5 +93,14 @@ class RxjavaBaseClassDetailActivity : AppCompatActivity() {
                 .subscribe {
                     Log.e("Rxjava",Thread.currentThread().name + ": get data $it")
                 }
+    }
+
+
+
+    private fun fitList(name :String,descriptor :String,list :ArrayList<NounDescriptor>){
+        val nounDescriptor = NounDescriptor()
+        nounDescriptor.name = name
+        nounDescriptor.descriptor = descriptor
+        list.add(nounDescriptor)
     }
 }
